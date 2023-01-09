@@ -16,7 +16,7 @@ namespace BusinessLayer.Service
             this.userRL = userRL;
         }
 
-        public UserEntity Registration(UserRegistation userRegistation)
+        public UserEntity Registration(UserRegistration userRegistation)
         {
             try
             {

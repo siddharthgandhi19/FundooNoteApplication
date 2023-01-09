@@ -8,6 +8,6 @@ namespace RepoLayer.Interface
 {
     public interface IUserRL
     {
-        public UserEntity Registration(UserRegistation userRegistation);
+        public UserEntity Registration(UserRegistration userRegistation);
     }
 }

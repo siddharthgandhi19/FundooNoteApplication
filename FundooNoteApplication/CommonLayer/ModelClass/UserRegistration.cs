@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommonLayer.ModelClass
 {
-    public class UserRegistation
+    public class UserRegistration
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

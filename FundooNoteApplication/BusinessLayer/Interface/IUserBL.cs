@@ -8,6 +8,6 @@ namespace BusinessLayer.Interface
 {
     public interface IUserBL
     {
-        public UserEntity Registration(UserRegistation userRegistation);
+        public UserEntity Registration(UserRegistration userRegistation);
     }
 }

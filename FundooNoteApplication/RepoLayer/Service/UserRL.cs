@@ -16,7 +16,7 @@ namespace RepoLayer.Service
             this.fundooContext = fundooContext;
         }
 
-        public UserEntity Registration (UserRegistation userRegistation)
+        public UserEntity Registration (UserRegistration userRegistation)
         {
             try
             {
