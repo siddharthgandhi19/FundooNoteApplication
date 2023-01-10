@@ -9,10 +9,10 @@ namespace FundooNoteApplication.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserBL userBL;
-        public UserController(IUserBL userBL)
+        IUserBL iUserBL;
+        public UserController(IUserBL iUserBL)
         {
-            this.userBL = userBL;
+            this.iUserBL = iUserBL;
         }
         [HttpPost]
 
@@ -21,7 +21,7 @@ namespace FundooNoteApplication.Controllers
         {
             try
             {
-                var result = userBL.Registration(userRegistration);
+                var result = iUserBL.Registration(userRegistration);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "Registration Successfull", data = result });
@@ -29,6 +29,28 @@ namespace FundooNoteApplication.Controllers
                 else
                 {
                     return this.BadRequest(new { success = false, message = "Registration Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("UserLogin")]
+        public IActionResult Login(UserLogin userLogin)
+        {
+            try
+            {
+                var result = iUserBL.Login(userLogin);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Login Successfull", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Login UnSuccessfull" });
                 }
             }
             catch (System.Exception)

@@ -10,17 +10,30 @@ namespace BusinessLayer.Service
 {
     public class UserBL: IUserBL
     {
-        IUserRL userRL;
-        public UserBL(IUserRL userRL)
+        IUserRL iUserRL;
+        public UserBL(IUserRL iUserRL)
         {
-            this.userRL = userRL;
+            this.iUserRL = iUserRL;
+        }
+
+        public string Login(UserLogin userLogin)
+        {
+            try
+            {
+                return iUserRL.Login(userLogin);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public UserEntity Registration(UserRegistration userRegistation)
         {
             try
             {
-                return userRL.Registration(userRegistation);
+                return iUserRL.Registration(userRegistation);
             }
             catch (Exception)
             {
