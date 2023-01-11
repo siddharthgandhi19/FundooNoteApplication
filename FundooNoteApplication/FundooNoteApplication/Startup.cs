@@ -56,6 +56,7 @@ namespace FundooNoteApplication
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
