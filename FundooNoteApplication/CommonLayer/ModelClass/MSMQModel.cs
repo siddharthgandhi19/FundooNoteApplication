@@ -18,7 +18,7 @@ namespace CommonLayer.ModelClass
                 MessageQueue.Create(mQ.Path);
             }
             mQ.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            mQ.ReceiveCompleted += MQ_ReceiveCompleted; //tab try to achieve delegate here
+            mQ.ReceiveCompleted += MQ_ReceiveCompleted;   //tab try to achieve delegate here
             mQ.Send(token); // delegate achieve
             mQ.BeginReceive();
             mQ.Close();

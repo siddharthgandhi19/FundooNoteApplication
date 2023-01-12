@@ -45,31 +45,6 @@ namespace FundooNoteApplication
                     Title = "Implement Swagger UI",
                     Description = "A simple example to Implement Swagger UI",
                 });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter token",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                }
-                },
-                   new string[]{}
-            }
-
-                });            
             });
         }
 
@@ -93,8 +68,7 @@ namespace FundooNoteApplication
                 endpoints.MapControllers();
             });
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
+            app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
             });
         }
