@@ -10,7 +10,7 @@ namespace CommonLayer.ModelClass
     public class MSMQModel
     {
         MessageQueue mQ = new MessageQueue();
-        private void sendData2Queue(string token)
+        public void sendData2Queue(string token)
         {
             mQ.Path = @".\private$\FundooNote";
             if(!MessageQueue.Exists(mQ.Path))

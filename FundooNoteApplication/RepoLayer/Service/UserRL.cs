@@ -13,7 +13,7 @@ using System.Text;
 
 namespace RepoLayer.Service
 {
-    public class UserRL: IUserRL
+    public class UserRL : IUserRL
     {
         FundooContext fundooContext;
         private readonly string _secret;
@@ -26,18 +26,18 @@ namespace RepoLayer.Service
 
         }
 
-        public UserEntity Registration (UserRegistration userRegistation)
+        public UserEntity Registration(UserRegistration userRegistation)
         {
             try
             {
                 UserEntity userEntity = new UserEntity();
-                userEntity.FirstName= userRegistation.FirstName;
-                userEntity.LastName= userRegistation.LastName;
-                userEntity.Email= userRegistation.Email;
-                userEntity.Password= userRegistation.Password;
+                userEntity.FirstName = userRegistation.FirstName;
+                userEntity.LastName = userRegistation.LastName;
+                userEntity.Email = userRegistation.Email;
+                userEntity.Password = userRegistation.Password;
                 fundooContext.UserTable.Add(userEntity);
                 int result = fundooContext.SaveChanges();
-                if (result>0)
+                if (result > 0)
                 {
                     return userEntity;
                 }
@@ -55,17 +55,17 @@ namespace RepoLayer.Service
 
         public string Login(UserLogin userLogin)
         {
-            try 
+            try
             {
-                var result = fundooContext.UserTable.Where(x=> x.Email== userLogin.Email && x.Password == userLogin.Password).FirstOrDefault();
+                var result = fundooContext.UserTable.Where(x => x.Email == userLogin.Email && x.Password == userLogin.Password).FirstOrDefault();
                 if (result != null)
                 {
                     var token = GenerateSecurityToken(result.Email, result.UserId);
                     return token;
-                }      
-                else 
-                { 
-                    return null; 
+                }
+                else
+                {
+                    return null;
                 }
             }
             catch (Exception)
@@ -91,7 +91,31 @@ namespace RepoLayer.Service
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-
         }
+
+        public string ForgotPassword(string email)
+        {
+            try
+            {
+                var result = fundooContext.UserTable.Where(x => x.Email == email).FirstOrDefault();
+                if (result != null)
+                {
+                    var token = GenerateSecurityToken(result.Email, result.UserId);
+                    MSMQModel mSMQModel = new MSMQModel();
+                    mSMQModel.sendData2Queue(token);
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
