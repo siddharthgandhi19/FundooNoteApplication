@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.ModelClass;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Security.Claims;
 
 namespace FundooNoteApplication.Controllers
 {
@@ -81,5 +84,31 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
-    }
+
+        [Authorize] //for token only code will read from here
+        [HttpPut]
+        [Route("ResetPassword")]
+
+        public IActionResult PasswordReset(string newPassword, string confirmPassword) // email taken frm token
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var result = iUserBL.ResetPassword(email, newPassword, confirmPassword);
+                if (result)
+                {
+                    return this.Ok(new { success = true, message = "Password Reset Successfully", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Password Not Reset Try Again" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+    } 
 }
