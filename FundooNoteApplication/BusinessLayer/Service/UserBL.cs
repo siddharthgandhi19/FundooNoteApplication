@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BusinessLayer.Service
 {
-    public class UserBL: IUserBL
+    public class UserBL : IUserBL
     {
         IUserRL iUserRL;
         public UserBL(IUserRL iUserRL)
@@ -16,11 +16,11 @@ namespace BusinessLayer.Service
             this.iUserRL = iUserRL;
         }
 
-        public bool ResetPassword(string email, string newPassword, string confirmPassword)
+        public bool ResetPassword(string email, ResetPassword resetPassword)
         {
             try
             {
-                return iUserRL.ResetPassword(email, newPassword, confirmPassword);
+                return iUserRL.ResetPassword(email, resetPassword);
             }
             catch (Exception)
             {
@@ -65,6 +65,6 @@ namespace BusinessLayer.Service
             {
                 throw;
             }
-        }        
+        }
     }
 }

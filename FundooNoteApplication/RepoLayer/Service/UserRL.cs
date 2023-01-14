@@ -117,14 +117,14 @@ namespace RepoLayer.Service
             }
         }
 
-        public bool ResetPassword (string email, string newPassword, string confirmPassword)
+        public bool ResetPassword (string email, ResetPassword resetPassword)
         {
             try
             {
-                if (newPassword == confirmPassword)
+                if (resetPassword.NewPassword == resetPassword.ConfirmPassword)
                 {
                     var result = fundooContext.UserTable.Where(x => x.Email == email).FirstOrDefault();
-                    result.Password= newPassword;
+                    result.Password= resetPassword.NewPassword;
                     fundooContext.SaveChanges(); // saving in database
                     return true;
                 }

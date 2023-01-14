@@ -89,12 +89,12 @@ namespace FundooNoteApplication.Controllers
         [HttpPut]
         [Route("ResetPassword")]
 
-        public IActionResult PasswordReset(string newPassword, string confirmPassword) // email taken frm token
+        public IActionResult PasswordReset(ResetPassword resetPassword) // email taken frm token
         {
             try
             {
                 var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
-                var result = iUserBL.ResetPassword(email, newPassword, confirmPassword);
+                var result = iUserBL.ResetPassword(email,resetPassword);
                 if (result)
                 {
                     return this.Ok(new { success = true, message = "Password Reset Successfully", data = result });
@@ -106,7 +106,6 @@ namespace FundooNoteApplication.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
