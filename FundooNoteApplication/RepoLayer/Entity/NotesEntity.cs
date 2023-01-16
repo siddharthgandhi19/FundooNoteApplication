@@ -20,5 +20,9 @@ namespace RepoLayer.Entity
         public bool IsPin { get; set; }
         public bool IsTrash { get; set; }
         public DateTime CreatedNoteTime { get; set; }
+
+        [ForeignKey("UserId")]
+        public long UserId { get; set; }
+        public virtual UserEntity User { get; set; }
     }
 }
