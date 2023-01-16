@@ -5,6 +5,7 @@ using RepoLayer.Entity;
 using RepoLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RepoLayer.Service
@@ -40,6 +41,29 @@ namespace RepoLayer.Service
                 else
                 {
                     return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public bool MoveToTrash(NoteTrashed deleteNote, long UserId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == deleteNote.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Trash = !result.Trash;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             catch (Exception ex)

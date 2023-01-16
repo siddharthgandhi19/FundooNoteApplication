@@ -41,5 +41,28 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+
+        [HttpPut] //Entring the data in the database
+        [Route("NoteTrashS")]
+        public IActionResult MoveToTrash(NoteTrashed noteTrashed)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.MoveToTrash(noteTrashed, userId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Trash Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Trash Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

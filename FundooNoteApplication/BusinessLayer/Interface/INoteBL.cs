@@ -9,5 +9,6 @@ namespace BusinessLayer.Interface
     public interface INoteBL
     {
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId);
+        public bool MoveToTrash(NoteTrashed deleteNote, long UserId);
     }
 }

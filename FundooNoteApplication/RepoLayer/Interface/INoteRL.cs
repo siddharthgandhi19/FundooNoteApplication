@@ -9,5 +9,6 @@ namespace RepoLayer.Interface
     public interface INoteRL
     {
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId);
+        public bool MoveToTrash(NoteTrashed deleteNote, long UserId);
     }
 }
