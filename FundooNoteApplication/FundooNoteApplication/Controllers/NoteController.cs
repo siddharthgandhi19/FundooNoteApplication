@@ -18,7 +18,7 @@ namespace FundooNoteApplication.Controllers
         {
             this.iNoteBL = iNoteBL;
         }
-          
+        [Authorize]
         [HttpPost] //Entring the data in the database
         [Route("NoteRegistration")]
         public IActionResult CreateNote(NoteRegistration noteRegistration)
@@ -41,9 +41,9 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
-
+        [Authorize]
         [HttpPut] //Entring the data in the database
-        [Route("NoteTrashS")]
+        [Route("NoteTrash")]
         public IActionResult MoveToTrash(NoteTrashed noteTrashed)
         {
             try
@@ -57,6 +57,30 @@ namespace FundooNoteApplication.Controllers
                 else
                 {
                     return this.BadRequest(new { success = false, message = "Note Trash Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet] 
+        [Route("RetrieveNote")]
+        public IActionResult RetrieveNotes(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.RetrieveNotes(userId, noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Retrieve Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Retrieve Unsuccessfull" });
                 }
             }
             catch (System.Exception)

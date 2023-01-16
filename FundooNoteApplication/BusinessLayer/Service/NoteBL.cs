@@ -2,6 +2,7 @@
 using CommonLayer.ModelClass;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
+using RepoLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,6 +34,18 @@ namespace BusinessLayer.Service
             try
             {
                 return iNoteRL.MoveToTrash(deleteNote, UserId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<NoteEntity> RetrieveNotes(long userId, long noteId)
+        {
+            try
+            {
+                return iNoteRL.RetrieveNotes(userId, noteId);
             }
             catch (Exception)
             {
