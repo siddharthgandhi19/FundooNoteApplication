@@ -85,6 +85,19 @@ namespace RepoLayer.Service
             }
         }
 
+        public IEnumerable<NoteEntity> RetrieveAllNotes(long userId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.UserId == userId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public NoteEntity RemoveNotes(NoteRemove noteRemove, long noteId)
         {
             try
@@ -105,6 +118,38 @@ namespace RepoLayer.Service
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+
+        public NoteEntity UpdateNotes(NoteRegistration noteRegistration, long UserId, long NoteID)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x=>x.NoteID == NoteID).FirstOrDefault();
+                if(result!=null)
+                {
+                    result.Title = noteRegistration.Title;
+                    result.Description = noteRegistration.Description;
+                    result.Reminder = noteRegistration.Reminder;
+                    result.Color = noteRegistration.Color;
+                    result.Image = noteRegistration.Image;
+                    result.Archive = noteRegistration.Archive;
+                    result.Pin = noteRegistration.Pin;
+                    result.Trash = noteRegistration.Trash;
+                    result.CreateNoteTime = noteRegistration.CreateNoteTime;
+                    result.UserId = UserId;                    
+                    fundooContext.SaveChanges();
+                    return result;
+                }
+                else 
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }
