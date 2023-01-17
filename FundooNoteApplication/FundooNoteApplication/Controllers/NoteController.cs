@@ -185,5 +185,29 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpPut]
+        [Route("NotePin")]
+        public IActionResult PinnedNotes(NoteTrashed noteTrashed)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.PinnedNotes(noteTrashed, userId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Pinned Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Unpinned Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

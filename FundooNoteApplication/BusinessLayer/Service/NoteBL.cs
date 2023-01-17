@@ -53,6 +53,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool PinnedNotes(NoteTrashed deleteNote, long UserId)
+        {
+            try
+            {
+                return iNoteRL.PinnedNotes(deleteNote, UserId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public NoteEntity RemoveNotes(NoteRemove noteRemove, long noteId)
         {
             try
