@@ -147,7 +147,7 @@ namespace FundooNoteApplication.Controllers
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = iNoteBL.MoveToTrash(noteTrashed, userId);
-                if (result != null)
+                if (result == true)
                 {
                     return this.Ok(new { success = true, message = "Note Trash Successfully", data = result });
                 }
@@ -160,6 +160,30 @@ namespace FundooNoteApplication.Controllers
             {
                 throw;
             }
-        }        
+        }
+
+        [Authorize]
+        [HttpPut] 
+        [Route("NoteArchive")]
+        public IActionResult MoveToArchive(NoteTrashed noteTrashed)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.MoveToArchive(noteTrashed, userId);
+                if (result == true)
+                {
+                    return this.Ok(new { success = true, message = "Note Archive Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Archive Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

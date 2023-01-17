@@ -29,6 +29,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool MoveToArchive(NoteTrashed deleteNote, long UserId)
+        {
+            try
+            {
+                return iNoteRL.MoveToArchive(deleteNote, UserId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool MoveToTrash(NoteTrashed deleteNote, long UserId)
         {
             try

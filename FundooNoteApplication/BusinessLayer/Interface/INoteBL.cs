@@ -14,5 +14,6 @@ namespace BusinessLayer.Interface
         public NoteEntity RemoveNotes(NoteRemove noteRemove, long noteId);
         public NoteEntity UpdateNotes(NoteRegistration noteRegistration, long UserId, long NoteID);
         public IEnumerable<NoteEntity> RetrieveAllNotes(long userId);
+        public bool MoveToArchive(NoteTrashed deleteNote, long UserId);
     }
 }

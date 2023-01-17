@@ -153,5 +153,28 @@ namespace RepoLayer.Service
                 throw ex;
             }
         }
+
+        public bool MoveToArchive(NoteTrashed deleteNote, long UserId) //take note trashed class only for input form NOTEID
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == deleteNote.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (!result.Archive == true)
+                {
+                    result.Archive = !result.Archive;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
