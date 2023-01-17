@@ -159,7 +159,7 @@ namespace RepoLayer.Service
             try
             {
                 var result = fundooContext.NoteTable.Where(x => x.NoteID == deleteNote.NoteID && x.UserId == UserId).FirstOrDefault();
-                if (!result.Archive == true)
+                if (result != null)
                 {
                     result.Archive = !result.Archive;
                     fundooContext.SaveChanges();
