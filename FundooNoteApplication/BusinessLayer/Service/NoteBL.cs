@@ -41,6 +41,19 @@ namespace BusinessLayer.Service
             }
         }
 
+        public NoteEntity RemoveNotes(NoteRemove noteRemove, long noteId)
+        {
+            try
+            {
+                return iNoteRL.RemoveNotes(noteRemove, noteId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public IEnumerable<NoteEntity> RetrieveNotes(long userId, long noteId)
         {
             try

@@ -11,5 +11,6 @@ namespace RepoLayer.Interface
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId);
         public bool MoveToTrash(NoteTrashed deleteNote, long UserId);
         public IEnumerable<NoteEntity> RetrieveNotes(long userId, long noteId);
+        public NoteEntity RemoveNotes(NoteRemove noteRemove, long noteId);
     }
 }
