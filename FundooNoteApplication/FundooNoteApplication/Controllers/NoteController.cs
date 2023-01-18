@@ -90,6 +90,7 @@ namespace FundooNoteApplication.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("RetrieveNote")]
         public IActionResult RetrieveNotes(long noteId)
@@ -129,6 +130,31 @@ namespace FundooNoteApplication.Controllers
                 else
                 {
                     return this.BadRequest(new { success = false, message = "Note Retrieve Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("Archieve")]
+        public IActionResult ArchieveNotes(NoteIDModel noteIDModel)
+        {
+            try
+            {
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.ArchieveNotes(noteIDModel, UserId);
+                string message = (result == 1) ? "Note Archieve" : "Note UnArchieve";
+                if (result > 0)
+                {
+                    return this.Ok(new { success = true, message = message, data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
                 }
             }
             catch (System.Exception)

@@ -17,6 +17,19 @@ namespace BusinessLayer.Service
         {
             this.iNoteRL = iNoteRL;
         }
+
+        public int ArchieveNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                return iNoteRL.ArchieveNotes(noteIDModel, UserId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId)
         {
             try

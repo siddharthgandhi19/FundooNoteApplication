@@ -130,5 +130,28 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        public int ArchieveNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Archive = !result.Archive;
+                    result.CreateNoteTime = DateTime.Now;
+                    fundooContext.SaveChanges();
+                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Archive);
+                }
+                else
+                {
+                    return Convert.ToInt16(false);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
