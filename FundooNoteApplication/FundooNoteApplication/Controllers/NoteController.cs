@@ -263,5 +263,29 @@ namespace FundooNoteApplication.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut]
+        [Route("ImageUpload")]
+
+        public IActionResult UploadImage(IFormFile image, long NoteID)
+        {
+            try
+            {           
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
+                var result = iNoteBL.UploadImage(image, NoteID, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Image Uploaded Succesfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Image Uploaded Unsuccessfully" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

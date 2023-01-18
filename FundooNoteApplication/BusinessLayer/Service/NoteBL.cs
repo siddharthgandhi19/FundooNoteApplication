@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.ModelClass;
+using Microsoft.AspNetCore.Http;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
 using RepoLayer.Service;
@@ -52,7 +53,7 @@ namespace BusinessLayer.Service
             {
                 throw;
             }
-        }
+        }       
 
         public int PinnedNotes(NoteIDModel noteIDModel, long UserId)
         {
@@ -131,6 +132,18 @@ namespace BusinessLayer.Service
             try
             {
                 return iNoteRL.UpdateNotes(noteRegistration, UserId, NoteID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string UploadImage(IFormFile image, long noteId, long userId)
+        {
+            try
+            {
+                return iNoteRL.UploadImage(image, noteId, userId);
             }
             catch (Exception)
             {

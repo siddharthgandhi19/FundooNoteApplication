@@ -7,15 +7,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RepoLayer.Service
 {
     public class NoteRL : INoteRL
     {
         FundooContext fundooContext;
+        IConfiguration configuration; //image configuration
         public NoteRL(FundooContext fundooContext, IConfiguration config)
         {
             this.fundooContext = fundooContext;
+            this.configuration = config;
         }
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId)
         {
@@ -204,12 +210,12 @@ namespace RepoLayer.Service
         {
             try
             {
-                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.Trash==true);
+                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.Trash == true);
                 if (result != null)
                 {
                     foreach (var data in result)
                     {
-                        fundooContext.NoteTable.Remove(data);  
+                        fundooContext.NoteTable.Remove(data);
                     }
                     fundooContext.SaveChanges();
                     return true;
@@ -228,7 +234,7 @@ namespace RepoLayer.Service
         public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
         {
             try
-            {              
+            {
                 var noteEntity = fundooContext.NoteTable.FirstOrDefault(e => e.NoteID == NoteID);
                 noteEntity.Color = backgroundColor;
                 fundooContext.NoteTable.Update(noteEntity);
@@ -241,8 +247,41 @@ namespace RepoLayer.Service
             {
                 throw e;
             }
-
         }
 
+        public string UploadImage(IFormFile image, long noteId, long userId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.FirstOrDefault(e => e.NoteID == noteId && e.UserId == userId);
+                if (result != null)
+                {
+                    Account accounnt = new Account(
+                        this.configuration["CloudinarySettings:CloudName"],
+                       this.configuration["CloudinarySettings:ApiKey"],
+                        this.configuration["CloudinarySettings:ApiSecret"]
+                        );
+                    Cloudinary cloudinary = new Cloudinary(accounnt);
+                    var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    string imagePath = uploadResult.Url.ToString();
+                    result.Image = imagePath;
+                    fundooContext.SaveChanges();
+
+                    return "Image uploaded successfully";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
