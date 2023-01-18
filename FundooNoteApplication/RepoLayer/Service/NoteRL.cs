@@ -48,6 +48,30 @@ namespace RepoLayer.Service
 
                 throw ex;
             }
-        }       
+        }
+
+        public NoteEntity RemoveNotes(NoteIDModel noteIdModel, long noteId)
+        {
+            try
+            {
+                NoteEntity noteEntity = new NoteEntity();
+                noteEntity.NoteID = noteIdModel.NoteID;
+                fundooContext.NoteTable.Remove(noteEntity);
+                int result = fundooContext.SaveChanges();
+                if (result > 0)
+                {
+                    return noteEntity;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }
