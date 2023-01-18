@@ -238,14 +238,12 @@ namespace RepoLayer.Service
                 var noteEntity = fundooContext.NoteTable.FirstOrDefault(e => e.NoteID == NoteID);
                 noteEntity.Color = backgroundColor;
                 fundooContext.NoteTable.Update(noteEntity);
-
                 fundooContext.SaveChanges();
                 return noteEntity;
-
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 

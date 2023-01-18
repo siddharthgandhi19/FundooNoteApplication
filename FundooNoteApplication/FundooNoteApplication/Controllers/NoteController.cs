@@ -257,9 +257,9 @@ namespace FundooNoteApplication.Controllers
                     return BadRequest(new { success = false, message = "Background Color Not Done" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
