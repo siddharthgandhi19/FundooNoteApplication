@@ -29,6 +29,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool DeleteCollab(long collabId, long noteId)
+        {
+            try
+            {
+                return iCollabRL.DeleteCollab(collabId, noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
         {
             try

@@ -48,7 +48,7 @@ namespace FundooNoteApplication.Controllers
 
         [Authorize]
         [HttpGet]
-        [Route("Retrieve")]
+        [Route("RetrieveCollaboration")]
 
         public IActionResult RetrieveCollab(long noteId)
         {
@@ -66,6 +66,33 @@ namespace FundooNoteApplication.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "Data Retrieve UnSuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+
+        [Authorize]
+        [HttpDelete]
+        [Route("DeleteCollaboration")]
+        public IActionResult DeleteCollab(long collabId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+
+                var result = iCollabBL.DeleteCollab(collabId, userId);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Data Delete Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Delete UnSuccessful" });
                 }
             }
             catch (System.Exception)

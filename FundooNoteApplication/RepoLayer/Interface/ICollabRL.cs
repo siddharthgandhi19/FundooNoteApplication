@@ -9,5 +9,6 @@ namespace RepoLayer.Interface
     {
         public CollaborationEntity CreateCollab(long NoteId, string email);
         public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId);
+        public bool DeleteCollab(long collabId, long noteId);
     }
 }
