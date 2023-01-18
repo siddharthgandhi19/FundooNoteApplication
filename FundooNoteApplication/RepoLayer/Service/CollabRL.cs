@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CommonLayer.ModelClass;
+using Microsoft.Extensions.Configuration;
 using RepoLayer.Context;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
@@ -21,13 +22,13 @@ namespace RepoLayer.Service
             this.iconfiguration = iconfiguration;
         }
 
-        public CollaborationEntity CreateCollab(long NoteId, string email)
+        public CollaborationEntity CreateCollab(long NoteId, CollabEmail email)
         {
             try
             {
 
                 var noteResult = fundooContext.NoteTable.Where(x => x.NoteID == NoteId).FirstOrDefault();
-                var emailResult = fundooContext.UserTable.Where(x => x.Email == email).FirstOrDefault();
+                var emailResult = fundooContext.UserTable.Where(x => x.Email == email.Email).FirstOrDefault();
 
                 if (emailResult != null && noteResult != null)
                 {
@@ -49,45 +50,6 @@ namespace RepoLayer.Service
             catch (Exception e)
             {
                 throw e;
-            }
-        }
-
-        public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
-        {
-            try
-            {
-                var result = fundooContext.CollabTable.Where(x => x.NoteID == noteId);
-                if (result != null)
-                {
-                    return result;
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public bool DeleteCollab(long collabId, long noteId)
-        {
-            try
-            {
-                var result = fundooContext.CollabTable.FirstOrDefault(x => x.CollabId == collabId);
-                fundooContext.CollabTable.Remove(result);
-                fundooContext.SaveChanges();
-                return true;
-
-            }
-            catch (Exception)
-            {
-
-                throw;
             }
         }
     }

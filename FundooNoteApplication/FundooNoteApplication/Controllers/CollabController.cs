@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using CommonLayer.ModelClass;
+using RepoLayer.Entity;
 
 namespace FundooNoteApplication.Controllers
 {
@@ -23,12 +25,12 @@ namespace FundooNoteApplication.Controllers
         [HttpPost]
         [Route("CreateCollaboration")]
 
-        public IActionResult CreateCollab(long notesId, string email)
+        public IActionResult CreateCollab(long NoteId, CollabEmail email)
         {
             try
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = iCollabBL.CreateCollab(notesId, email);
+                var result = iCollabBL.CreateCollab(NoteId, email);
 
                 if (result != null)
                 {
@@ -44,61 +46,6 @@ namespace FundooNoteApplication.Controllers
             {
                 throw;
             }
-        }
-
-        [Authorize]
-        [HttpGet]
-        [Route("RetrieveCollaboration")]
-
-        public IActionResult RetrieveCollab(long noteId)
-        {
-            try
-            {
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-
-                var result = iCollabBL.RetrieveCollab(noteId, userId);
-
-                if (result != null)
-                {
-
-                    return Ok(new { success = true, message = "Data Retrieve Successful ", data = result });
-                }
-                else
-                {
-                    return BadRequest(new { success = false, message = "Data Retrieve UnSuccessful" });
-                }
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-        }
-
-
-        [Authorize]
-        [HttpDelete]
-        [Route("DeleteCollaboration")]
-        public IActionResult DeleteCollab(long collabId)
-        {
-            try
-            {
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-
-                var result = iCollabBL.DeleteCollab(collabId, userId);
-
-                if (result != null)
-                {
-                    return Ok(new { success = true, message = "Data Delete Successful" });
-                }
-                else
-                {
-                    return BadRequest(new { success = false, message = "Data Delete UnSuccessful" });
-                }
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
-        }
+        }        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.ModelClass;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
 using RepoLayer.Service;
@@ -16,7 +17,7 @@ namespace BusinessLayer.Service
             this.iCollabRL = iCollabRL;
         }
 
-        public CollaborationEntity CreateCollab(long NoteId, string email)
+        public CollaborationEntity CreateCollab(long NoteId, CollabEmail email)
         {
             try
             {
@@ -28,29 +29,6 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-
-        public bool DeleteCollab(long collabId, long noteId)
-        {
-            try
-            {
-                return iCollabRL.DeleteCollab(collabId, noteId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
-        {
-            try
-            {
-                return iCollabRL.RetrieveCollab(noteId, userId);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+       
     }
 }
