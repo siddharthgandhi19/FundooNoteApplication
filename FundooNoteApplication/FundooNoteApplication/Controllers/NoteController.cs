@@ -89,5 +89,52 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("RetrieveNote")]
+        public IActionResult RetrieveNotes(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.RetrieveNotes(userId, noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Retrieve Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Retrieve Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("RetrieveAllNote")]
+        public IActionResult RetrieveAllNotes()
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.RetrieveAllNotes(userId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note Retrieve Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Retrieve Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

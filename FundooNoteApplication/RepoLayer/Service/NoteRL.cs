@@ -105,5 +105,30 @@ namespace RepoLayer.Service
                 throw ex;
             }
         }
+
+        public IEnumerable<NoteEntity> RetrieveNotes(long userId, long noteId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IEnumerable<NoteEntity> RetrieveAllNotes(long userId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.UserId == userId);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
