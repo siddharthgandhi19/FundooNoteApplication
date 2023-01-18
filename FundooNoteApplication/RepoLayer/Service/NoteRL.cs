@@ -199,5 +199,50 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        public bool TrashedAllNotes(long UserId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.Trash==true);
+                if (result != null)
+                {
+                    foreach (var data in result)
+                    {
+                        fundooContext.NoteTable.Remove(data);  
+                    }
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
+        {
+            try
+            {              
+                var noteEntity = fundooContext.NoteTable.FirstOrDefault(e => e.NoteID == NoteID);
+                noteEntity.Color = backgroundColor;
+                fundooContext.NoteTable.Update(noteEntity);
+
+                fundooContext.SaveChanges();
+                return noteEntity;
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
     }
 }

@@ -16,5 +16,7 @@ namespace RepoLayer.Interface
         public int ArchieveNotes(NoteIDModel noteIDModel, long UserId);
         public int PinnedNotes(NoteIDModel noteIDModel, long UserId);
         public int TrashedNotes(NoteIDModel noteIDModel, long UserId);
+        public bool TrashedAllNotes(long UserId);
+        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor);
     }
 }

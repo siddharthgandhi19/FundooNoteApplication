@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
+using RepoLayer.Context;
 
 namespace FundooNoteApplication.Controllers
 {
@@ -212,5 +213,55 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpPut]
+        [Route("DeleteAllTrashNote")]
+        public IActionResult TrashedAllNotes(long UserId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.TrashedAllNotes(UserId);
+                if (result == true)
+                {
+                    return this.Ok(new { success = true, message = "All Trash Note Delete Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Delete Trash Note Unsuccessfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("BackgroundColor")]
+        public IActionResult BgColor(long NoteID, string backgroundColor, NoteColor noteColor)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.Color(userId, NoteID, backgroundColor, noteColor);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Background Color Done", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Background Color Not Done" });
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

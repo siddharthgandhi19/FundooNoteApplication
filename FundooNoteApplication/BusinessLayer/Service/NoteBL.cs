@@ -30,6 +30,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
+        {
+            try
+            {
+                return iNoteRL.Color(userId, NoteID, backgroundColor, noteColor);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId)
         {
             try
@@ -83,6 +95,18 @@ namespace BusinessLayer.Service
             try
             {
                 return iNoteRL.RetrieveNotes(userId, noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool TrashedAllNotes(long UserId)
+        {
+            try
+            {
+                return iNoteRL.TrashedAllNotes(UserId);
             }
             catch (Exception)
             {
