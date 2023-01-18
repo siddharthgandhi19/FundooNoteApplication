@@ -75,5 +75,32 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("DeleteCollaboration")]
+        public IActionResult DeleteCollab(CollabIDModel collabIDModel)
+        {
+
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+
+                var result = iCollabBL.DeleteCollab(collabIDModel, userId);
+
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "Data Delete Successful" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Delete UnSuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

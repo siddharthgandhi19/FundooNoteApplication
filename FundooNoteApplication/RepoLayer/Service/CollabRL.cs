@@ -74,5 +74,27 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        public bool DeleteCollab(CollabIDModel collabIDModel, long noteId)
+        {
+            try
+            {
+                var result = fundooContext.CollabTable.FirstOrDefault(x => x.CollabId == collabIDModel.CollabId);
+                if (result != null)
+                {                    
+                    fundooContext.CollabTable.Remove(result);
+                    fundooContext.SaveChanges();
+                    return true;
+                }         
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
