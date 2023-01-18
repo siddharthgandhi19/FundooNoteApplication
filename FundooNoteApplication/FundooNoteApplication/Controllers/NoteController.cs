@@ -140,7 +140,7 @@ namespace FundooNoteApplication.Controllers
 
         [Authorize]
         [HttpPut]
-        [Route("Archieve")]
+        [Route("ArchieveNote")]
         public IActionResult ArchieveNotes(NoteIDModel noteIDModel)
         {
             try
@@ -148,6 +148,56 @@ namespace FundooNoteApplication.Controllers
                 long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
                 var result = iNoteBL.ArchieveNotes(noteIDModel, UserId);
                 string message = (result == 1) ? "Note Archieve" : "Note UnArchieve";
+                if (result > 0)
+                {
+                    return this.Ok(new { success = true, message = message, data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("PinNote")]
+        public IActionResult PinnedNotes(NoteIDModel noteIDModel)
+        {
+            try
+            {
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.PinnedNotes(noteIDModel, UserId);
+                string message = (result == 1) ? "Note Pin" : "Note UnPin";
+                if (result > 0)
+                {
+                    return this.Ok(new { success = true, message = message, data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("TrashNote")]
+        public IActionResult TrashedNotes(NoteIDModel noteIDModel)
+        {
+            try
+            {
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.TrashedNotes(noteIDModel, UserId);
+                string message = (result == 1) ? "Note Trash" : "Note UnTrash";
                 if (result > 0)
                 {
                     return this.Ok(new { success = true, message = message, data = result });

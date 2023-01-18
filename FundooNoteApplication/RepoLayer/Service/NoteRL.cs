@@ -153,5 +153,51 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        public int PinnedNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Pin = !result.Pin;
+                    result.CreateNoteTime = DateTime.Now;
+                    fundooContext.SaveChanges();
+                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Pin);
+                }
+                else
+                {
+                    return Convert.ToInt16(false);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int TrashedNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Trash = !result.Trash;
+                    result.CreateNoteTime = DateTime.Now;
+                    fundooContext.SaveChanges();
+                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Pin);
+                }
+                else
+                {
+                    return Convert.ToInt16(false);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

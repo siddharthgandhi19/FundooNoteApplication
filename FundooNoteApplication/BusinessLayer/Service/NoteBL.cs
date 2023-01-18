@@ -42,6 +42,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public int PinnedNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                return iNoteRL.PinnedNotes(noteIDModel, UserId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public NoteEntity RemoveNotes(NoteIDModel noteIdModel, long noteId)
         {
             try
@@ -71,6 +83,18 @@ namespace BusinessLayer.Service
             try
             {
                 return iNoteRL.RetrieveNotes(userId, noteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int TrashedNotes(NoteIDModel noteIDModel, long UserId)
+        {
+            try
+            {
+                return iNoteRL.TrashedNotes(noteIDModel, UserId);
             }
             catch (Exception)
             {

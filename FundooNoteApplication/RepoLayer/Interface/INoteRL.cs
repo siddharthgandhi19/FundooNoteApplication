@@ -14,5 +14,7 @@ namespace RepoLayer.Interface
         public IEnumerable<NoteEntity> RetrieveNotes(long userId, long noteId);
         public IEnumerable<NoteEntity> RetrieveAllNotes(long userId);
         public int ArchieveNotes(NoteIDModel noteIDModel, long UserId);
+        public int PinnedNotes(NoteIDModel noteIDModel, long UserId);
+        public int TrashedNotes(NoteIDModel noteIDModel, long UserId);
     }
 }
