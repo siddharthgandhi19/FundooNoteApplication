@@ -45,5 +45,33 @@ namespace FundooNoteApplication.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("Retrieve")]
+
+        public IActionResult RetrieveCollab(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+
+                var result = iCollabBL.RetrieveCollab(noteId, userId);
+
+                if (result != null)
+                {
+
+                    return Ok(new { success = true, message = "Data Retrieve Successful ", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Retrieve UnSuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
     }
 }

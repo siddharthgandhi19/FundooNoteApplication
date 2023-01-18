@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using RepoLayer.Entity;
 using RepoLayer.Interface;
+using RepoLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,18 @@ namespace BusinessLayer.Service
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
+        {
+            try
+            {
+                return iCollabRL.RetrieveCollab(noteId, userId);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
