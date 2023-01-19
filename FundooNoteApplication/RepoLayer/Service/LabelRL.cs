@@ -101,6 +101,30 @@ namespace RepoLayer.Service
             {
                 throw;
             }
-        }        
+        }
+
+        public LabelEntity EditLabel(long NoteID, long LabelID, string labelName)
+        {
+            try
+            {
+
+                var labelEntity = fundooContext.LabelTable.FirstOrDefault(x => x.LabelID == LabelID);
+                if (labelEntity != null)
+                {
+                    labelEntity.LabelName = labelName;
+
+                    fundooContext.SaveChanges();
+                    return labelEntity;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

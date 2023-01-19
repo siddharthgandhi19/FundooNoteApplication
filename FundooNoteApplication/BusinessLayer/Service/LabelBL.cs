@@ -39,7 +39,17 @@ namespace BusinessLayer.Service
             }
         }
 
-       
+        public LabelEntity EditLabel(long NoteID, long LabelID, string labelName)
+        {
+            try
+            {
+                return iLabelRL.EditLabel(NoteID, LabelID, labelName);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public IEnumerable<LabelEntity> RetrieveLabel(long LabelID)
         {

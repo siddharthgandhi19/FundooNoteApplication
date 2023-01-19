@@ -107,5 +107,30 @@ namespace FundooNoteApplication.Controllers
             }
             catch (System.Exception) { throw; }
         }
+
+        [Authorize]
+        [HttpPut]
+        [Route("EditLabel")]
+
+        public IActionResult EditLabel(long NoteID, long LabelID, string labelName)
+        {
+            try
+            {
+                var result = iLabelBL.EditLabel(NoteID, LabelID, labelName);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Label Updated Successful", data = result });
+                }
+                else
+                {
+                    return Ok(new { success = false, message = "Label Updated Unsuccessful" });
+                }
+            }
+            catch (System.Exception) 
+            {
+                throw;
+            }
+        }
     }
 }
