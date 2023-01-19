@@ -27,6 +27,20 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool DeleteLabel(long LabelID)
+        {
+            try
+            {
+                return iLabelRL.DeleteLabel(LabelID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+       
+
         public IEnumerable<LabelEntity> RetrieveLabel(long LabelID)
         {
             try

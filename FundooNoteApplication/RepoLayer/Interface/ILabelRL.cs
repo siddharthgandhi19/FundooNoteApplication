@@ -10,5 +10,6 @@ namespace RepoLayer.Interface
         public LabelEntity AddLabel(long NoteID, long userId, string labelName);
         public IEnumerable<LabelEntity> RetrieveLabel(long LabelID);
         public IEnumerable<LabelEntity> RetrieveLabelThroughNoteID(long NoteID);
+        public bool DeleteLabel(long LabelID);       
     }
 }
