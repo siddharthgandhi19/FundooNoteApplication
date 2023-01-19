@@ -53,11 +53,11 @@ namespace RepoLayer.Service
             }
         }
 
-        public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
+        public IEnumerable<CollaborationEntity> RetrieveCollab(long CollabId)
         {
             try
             {
-                var result = fundooContext.CollabTable.Where(x => x.NoteID == noteId);
+                var result = fundooContext.CollabTable.Where(x => x.CollabId == CollabId);
                 if (result != null)
                 {
                     return result;
@@ -70,7 +70,48 @@ namespace RepoLayer.Service
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
 
+        public IEnumerable<CollaborationEntity> RetrieveCollabThroughNotes(long NoteID)
+        {
+            try
+            {
+                var result = fundooContext.CollabTable.Where(x => x.NoteID == NoteID);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<CollaborationEntity> RetrieveCollabThroughUsers(long UserId)
+        {
+            try
+            {
+                var result = fundooContext.CollabTable.Where(x => x.UserId == UserId);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

@@ -52,13 +52,63 @@ namespace FundooNoteApplication.Controllers
         [HttpGet]
         [Route("RetrieveCollaboration")]
 
-        public IActionResult RetrieveCollab(long noteId)
+        public IActionResult RetrieveCollab(long CollabId)
         {
             try
             {
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iCollabBL.RetrieveCollab(CollabId);
 
-                var result = iCollabBL.RetrieveCollab(noteId, userId);
+                if (result != null)
+                {
+
+                    return Ok(new { success = true, message = "Data Retrieve Successful ", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Retrieve UnSuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("RetrieveCollaborationThroughNote")]
+
+        public IActionResult RetrieveCollabThroughNotes(long NoteID)
+        {
+            try
+            {
+                var result = iCollabBL.RetrieveCollabThroughNotes(NoteID);
+
+                if (result != null)
+                {
+
+                    return Ok(new { success = true, message = "Data Retrieve Successful ", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Data Retrieve UnSuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("RetrieveCollaborationThroughUser")]
+
+        public IActionResult RetrieveCollabThroughUsers(long UserId)
+        {
+            try
+            {
+                var result = iCollabBL.RetrieveCollabThroughUsers(UserId);
 
                 if (result != null)
                 {

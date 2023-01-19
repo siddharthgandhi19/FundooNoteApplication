@@ -42,15 +42,36 @@ namespace BusinessLayer.Service
             }
         }
 
-        public IEnumerable<CollaborationEntity> RetrieveCollab(long noteId, long userId)
+        public IEnumerable<CollaborationEntity> RetrieveCollab(long CollabId)
         {
             try
             {
-                return iCollabRL.RetrieveCollab(noteId, userId);
+                return iCollabRL.RetrieveCollab(CollabId);
             }
             catch (Exception)
             {
-
+                throw;
+            }
+        }
+        public IEnumerable<CollaborationEntity> RetrieveCollabThroughNotes(long NoteID)
+        {
+            try
+            {
+                return iCollabRL.RetrieveCollabThroughNotes(NoteID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IEnumerable<CollaborationEntity> RetrieveCollabThroughUsers(long UserId)
+        {
+            try
+            {
+                return iCollabRL.RetrieveCollabThroughUsers(UserId);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
