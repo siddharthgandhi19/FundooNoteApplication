@@ -6,15 +6,13 @@ using System.Text;
 
 namespace RepoLayer.Entity
 {
-    public class CollaborationEntity
+    public class LabelEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long LabelID { get; set; }
+        public string LabelName { get; set; }
 
-        public long CollabId { get; set; }
-        public string Email { get; set; }
-
-        
         [ForeignKey("UserId")]
         public long UserId { get; set; }
         public virtual UserEntity User { get; set; }
