@@ -22,8 +22,9 @@ namespace FundooNoteApplication.Controllers
     public class NoteController : ControllerBase
     {
         FundooContext fundooContext;
-        INoteBL iNoteBL;
         IDistributedCache distributedCache;
+        INoteBL iNoteBL;
+        
         public NoteController(INoteBL iNoteBL, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.iNoteBL = iNoteBL;

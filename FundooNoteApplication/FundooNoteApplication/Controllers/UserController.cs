@@ -3,8 +3,17 @@ using CommonLayer.ModelClass;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using RepoLayer.Context;
+using RepoLayer.Entity;
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FundooNoteApplication.Controllers
 {
@@ -13,9 +22,13 @@ namespace FundooNoteApplication.Controllers
     public class UserController : ControllerBase
     {
         IUserBL iUserBL;
-        public UserController(IUserBL iUserBL)
+        FundooContext fundooContext;
+        IDistributedCache distributedCache;
+        public UserController(IUserBL iUserBL, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.iUserBL = iUserBL;
+            this.distributedCache = distributedCache;
+            this.fundooContext = fundooContext;
         }
         [HttpPost]
 
@@ -108,6 +121,33 @@ namespace FundooNoteApplication.Controllers
             {
                 throw;
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("Redis")]
+        public async Task<IActionResult> GetAllUsersUsingRedisCache()
+        {
+            var cacheKey = "userList";
+            string serializedUserList;
+            var userList = new List<UserEntity>();
+            var redisUserList = await distributedCache.GetAsync(cacheKey);
+            if (redisUserList != null)
+            {
+                serializedUserList = Encoding.UTF8.GetString(redisUserList);
+                userList = JsonConvert.DeserializeObject<List<UserEntity>>(serializedUserList);
+            }
+            else
+            {
+                userList = await fundooContext.UserTable.ToListAsync();
+                serializedUserList = JsonConvert.SerializeObject(userList);
+                redisUserList = Encoding.UTF8.GetBytes(serializedUserList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisUserList, options);
+            }
+            return Ok(userList);
         }
     } 
 }
