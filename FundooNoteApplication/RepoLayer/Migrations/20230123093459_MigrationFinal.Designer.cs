@@ -10,8 +10,8 @@ using RepoLayer.Context;
 namespace RepoLayer.Migrations
 {
     [DbContext(typeof(FundooContext))]
-    [Migration("20230120063811_FinalMigration")]
-    partial class FinalMigration
+    [Migration("20230123093459_MigrationFinal")]
+    partial class MigrationFinal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

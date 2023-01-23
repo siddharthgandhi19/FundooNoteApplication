@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepoLayer.Migrations
 {
-    public partial class FinalMigration : Migration
+    public partial class MigrationFinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,7 @@ namespace RepoLayer.Migrations
                         column: x => x.UserId,
                         principalTable: "UserTable",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
