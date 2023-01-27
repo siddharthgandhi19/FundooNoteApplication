@@ -23,6 +23,13 @@ namespace RepoLayer.Service
             this.fundooContext = fundooContext;
             this.configuration = config;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noteRegistration"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public NoteEntity CreateNote(NoteRegistration noteRegistration, long UserId)
         {
             try
@@ -55,7 +62,12 @@ namespace RepoLayer.Service
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noteIdModel"></param>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         public NoteEntity RemoveNotes(NoteIDModel noteIdModel, long noteId)
         {
             try
@@ -124,6 +136,12 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<NoteEntity> RetrieveAllNotes(long userId)
         {
             try
@@ -136,7 +154,12 @@ namespace RepoLayer.Service
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noteIDModel"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public int ArchieveNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
@@ -183,6 +206,12 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noteIDModel"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public int TrashedNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
@@ -230,7 +259,14 @@ namespace RepoLayer.Service
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="NoteID"></param>
+        /// <param name="backgroundColor"></param>
+        /// <param name="noteColor"></param>
+        /// <returns></returns>
         public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
         {
             try
@@ -246,7 +282,13 @@ namespace RepoLayer.Service
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="noteId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public string UploadImage(IFormFile image, long noteId, long userId)
         {
             try

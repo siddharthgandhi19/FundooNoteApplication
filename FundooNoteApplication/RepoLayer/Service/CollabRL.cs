@@ -16,6 +16,11 @@ namespace RepoLayer.Service
 
         private readonly IConfiguration iconfiguration;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fundooContext"></param>
+        /// <param name="iconfiguration"></param>
         public CollabRL(FundooContext fundooContext, IConfiguration iconfiguration)
         {
             this.fundooContext = fundooContext;
@@ -53,6 +58,11 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="CollabId"></param>
+        /// <returns></returns>
         public IEnumerable<CollaborationEntity> RetrieveCollab(long CollabId)
         {
             try
@@ -73,7 +83,11 @@ namespace RepoLayer.Service
                 throw;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteID"></param>
+        /// <returns></returns>
         public IEnumerable<CollaborationEntity> RetrieveCollabThroughNotes(long NoteID)
         {
             try
@@ -95,6 +109,11 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IEnumerable<CollaborationEntity> RetrieveCollabThroughUsers(long UserId)
         {
             try
@@ -116,6 +135,12 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collabIDModel"></param>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         public bool DeleteCollab(CollabIDModel collabIDModel, long noteId)
         {
             try

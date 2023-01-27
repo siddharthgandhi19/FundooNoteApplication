@@ -85,7 +85,7 @@ namespace FundooNoteApplication.Controllers
                 var result = iUserBL.ForgotPassword(email);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Mail Successfully Sent", data = result });
+                    return this.Ok(new { success = true, message = "Mail Successfully Sent" }); //,data = result });
                 }
                 else
                 {

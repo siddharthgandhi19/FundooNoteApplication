@@ -18,6 +18,13 @@ namespace RepoLayer.Service
             this.fundooContext = fundooContext;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteID"></param>
+        /// <param name="userId"></param>
+        /// <param name="labelName"></param>
+        /// <returns></returns>
         public LabelEntity AddLabel(long NoteID, long userId, string labelName)
         {
             try
@@ -48,6 +55,11 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LabelID"></param>
+        /// <returns></returns>
         public IEnumerable<LabelEntity> RetrieveLabel(long LabelID)
         {
             try
@@ -68,6 +80,11 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteID"></param>
+        /// <returns></returns>
         public IEnumerable<LabelEntity> RetrieveLabelThroughNoteID(long NoteID)
         {
             try
@@ -88,6 +105,11 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LabelID"></param>
+        /// <returns></returns>
         public bool DeleteLabel(long LabelID)
         {
             try
@@ -103,6 +125,13 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteID"></param>
+        /// <param name="LabelID"></param>
+        /// <param name="labelName"></param>
+        /// <returns></returns>
         public LabelEntity EditLabel(long NoteID, long LabelID, string labelName)
         {
             try

@@ -18,6 +18,8 @@ namespace RepoLayer.Service
         FundooContext fundooContext;
         private readonly string _secret;
         private readonly string _expDate;
+        public static string Key = "sid@1234567890";
+
         public UserRL(FundooContext fundooContext, IConfiguration config)
         {
             this.fundooContext = fundooContext;
@@ -25,7 +27,37 @@ namespace RepoLayer.Service
             _expDate = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
 
         }
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
 
+        public static string ConvertoEncrypt(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return "";
+            password += Key;
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            return Convert.ToBase64String(passwordBytes);
+        }
+
+        public static string ConvertoDecrypt(string base64EncodeData)
+        {
+            if (string.IsNullOrEmpty(base64EncodeData))
+                return "";
+            var base64EncodeBytes = Convert.FromBase64String(base64EncodeData);
+            var result = Encoding.UTF8.GetString(base64EncodeBytes);
+            result = result.Substring(0, result.Length - Key.Length);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userRegistation"></param>
+        /// <returns></returns>
         public UserEntity Registration(UserRegistration userRegistation)
         {
             try
@@ -34,7 +66,7 @@ namespace RepoLayer.Service
                 userEntity.FirstName = userRegistation.FirstName;
                 userEntity.LastName = userRegistation.LastName;
                 userEntity.Email = userRegistation.Email;
-                userEntity.Password = userRegistation.Password;
+                userEntity.Password = ConvertoEncrypt(userRegistation.Password);
                 fundooContext.UserTable.Add(userEntity);
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
@@ -53,12 +85,18 @@ namespace RepoLayer.Service
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
         public string Login(UserLogin userLogin)
         {
             try
             {
-                var result = fundooContext.UserTable.Where(x => x.Email == userLogin.Email && x.Password == userLogin.Password).FirstOrDefault();
-                if (result != null)
+                var result = fundooContext.UserTable.Where(x => x.Email == userLogin.Email).FirstOrDefault();
+                var decryptPass = ConvertoDecrypt(result.Password);
+                if (result != null && decryptPass == userLogin.Password)
                 {
                     var token = GenerateSecurityToken(result.Email, result.UserId);
                     return token;
@@ -73,6 +111,13 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public string GenerateSecurityToken(string email, long userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -116,6 +161,13 @@ namespace RepoLayer.Service
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="resetPassword"></param>
+        /// <returns></returns>
 
         public bool ResetPassword(string email, ResetPassword resetPassword)
         {
