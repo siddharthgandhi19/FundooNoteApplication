@@ -39,6 +39,8 @@ namespace FundooNoteApplication
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooNoteDB"]));
             services.AddControllers();
+            //////services.AddCors(options => options.AddDefaultPolicy(
+            //////    builder => builder.WithOrigins("https://localhost:44386/api/User/UserLogin")));
             services.AddTransient<IUserBL, UserBL>(); // registration
             services.AddTransient<IUserRL, UserRL>();
             services.AddTransient<INoteBL, NoteBL>(); // notes
@@ -116,6 +118,11 @@ namespace FundooNoteApplication
             }
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+            //app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
