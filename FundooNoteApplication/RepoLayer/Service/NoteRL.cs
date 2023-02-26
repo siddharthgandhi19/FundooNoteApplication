@@ -160,21 +160,29 @@ namespace RepoLayer.Service
         /// <param name="noteIDModel"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public int ArchieveNotes(NoteIDModel noteIDModel, long UserId)
+        public bool ArchieveNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {
-                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
+                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.NoteID == noteIDModel.NoteID).FirstOrDefault();
                 if (result != null)
                 {
-                    result.Archive = !result.Archive;
-                    result.CreateNoteTime = DateTime.Now;
-                    fundooContext.SaveChanges();
-                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Archive);
+                    if (!result.Archive == true)
+                    {
+                        result.Archive = true;
+                        fundooContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        result.Archive = false;
+                        fundooContext.SaveChanges();
+                        return false;
+                    }
                 }
                 else
                 {
-                    return Convert.ToInt16(false);
+                    return false;
                 }
             }
             catch (Exception)
@@ -183,21 +191,29 @@ namespace RepoLayer.Service
             }
         }
 
-        public int PinnedNotes(NoteIDModel noteIDModel, long UserId)
+        public bool PinnedNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {
-                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
+                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.NoteID == noteIDModel.NoteID).FirstOrDefault();
                 if (result != null)
                 {
-                    result.Pin = !result.Pin;
-                    result.CreateNoteTime = DateTime.Now;
-                    fundooContext.SaveChanges();
-                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Pin);
+                    if (!result.Pin == true)
+                    {
+                        result.Pin = true;
+                        fundooContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        result.Pin = false;
+                        fundooContext.SaveChanges();
+                        return false;
+                    }
                 }
                 else
                 {
-                    return Convert.ToInt16(false);
+                    return false;
                 }
             }
             catch (Exception)
@@ -212,21 +228,22 @@ namespace RepoLayer.Service
         /// <param name="noteIDModel"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public int TrashedNotes(NoteIDModel noteIDModel, long UserId)
+        public bool TrashedNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {
-                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteIDModel.NoteID && x.UserId == UserId).FirstOrDefault();
-                if (result != null)
+                var result = fundooContext.NoteTable.Where(x => x.UserId == UserId && x.NoteID == noteIDModel.NoteID).FirstOrDefault();
+                if (!result.Trash == true)
                 {
-                    result.Trash = !result.Trash;
-                    result.CreateNoteTime = DateTime.Now;
+                    result.Trash = true;
                     fundooContext.SaveChanges();
-                    return Convert.ToInt16(true) + Convert.ToInt16(!result.Pin);
+                    return true;
                 }
                 else
                 {
-                    return Convert.ToInt16(false);
+                    result.Trash = false;
+                    fundooContext.SaveChanges();
+                    return false;
                 }
             }
             catch (Exception)

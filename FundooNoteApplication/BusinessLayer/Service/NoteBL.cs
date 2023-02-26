@@ -19,7 +19,7 @@ namespace BusinessLayer.Service
             this.iNoteRL = iNoteRL;
         }
 
-        public int ArchieveNotes(NoteIDModel noteIDModel, long UserId)
+        public bool ArchieveNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace BusinessLayer.Service
             }
         }       
 
-        public int PinnedNotes(NoteIDModel noteIDModel, long UserId)
+        public bool PinnedNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace BusinessLayer.Service
             }
         }
 
-        public int TrashedNotes(NoteIDModel noteIDModel, long UserId)
+        public bool TrashedNotes(NoteIDModel noteIDModel, long UserId)
         {
             try
             {

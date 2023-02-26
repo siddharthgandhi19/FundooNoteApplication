@@ -24,7 +24,7 @@ namespace FundooNoteApplication.Controllers
         FundooContext fundooContext;
         IDistributedCache distributedCache;
         INoteBL iNoteBL;
-        
+
         public NoteController(INoteBL iNoteBL, IDistributedCache distributedCache, FundooContext fundooContext)
         {
             this.iNoteBL = iNoteBL;
@@ -158,19 +158,26 @@ namespace FundooNoteApplication.Controllers
         {
             try
             {
-                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = iNoteBL.ArchieveNotes(noteIDModel, UserId);
-                string message = (result == 1) ? "Note Archieve" : "Note UnArchieve";
-                if (result > 0)
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.ArchieveNotes(noteIDModel, userId);
+                if (result != null)
                 {
-                    return this.Ok(new { success = true, message = message, data = result });
+                    if (result == true)
+                    {
+                        return this.Ok(new { success = true, message = "Note Archived" });
+                    }
+                    else
+                    {
+                        return this.Ok(new { success = true, message = "Note Unarchived", data = result });
+                    }
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
+                    return this.BadRequest(new { success = false, message = "Something went wrong" });
                 }
+
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -183,19 +190,25 @@ namespace FundooNoteApplication.Controllers
         {
             try
             {
-                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = iNoteBL.PinnedNotes(noteIDModel, UserId);
-                string message = (result == 1) ? "Note Pin" : "Note UnPin";
-                if (result > 0)
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.PinnedNotes(noteIDModel, userId);
+                if (result != null)
                 {
-                    return this.Ok(new { success = true, message = message, data = result });
+                    if (result == true)
+                    {
+                        return this.Ok(new { success = true, message = "Note Pinned", data = result });
+                    }
+                    else
+                    {
+                        return this.Ok(new { success = true, message = "Note Unpinned" });
+                    }
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
+                    return this.BadRequest(new { success = false, message = "Something went wrong" });
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -208,19 +221,25 @@ namespace FundooNoteApplication.Controllers
         {
             try
             {
-                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = iNoteBL.TrashedNotes(noteIDModel, UserId);
-                string message = (result == 1) ? "Note Trash" : "Note UnTrash";
-                if (result > 0)
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.TrashedNotes(noteIDModel, userId);
+                if (result != null)
                 {
-                    return this.Ok(new { success = true, message = message, data = result });
+                    if (result == true)
+                    {
+                        return this.Ok(new { success = true, message = "Note Trashed", data = result });
+                    }
+                    else
+                    {
+                        return this.Ok(new { success = true, message = "Note Restore" });
+                    }
                 }
                 else
                 {
-                    return this.BadRequest(new { success = false, message = "Note Archieve Unsuccessful" });
+                    return this.BadRequest(new { success = false, message = "Something went wrong" });
                 }
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -282,7 +301,7 @@ namespace FundooNoteApplication.Controllers
         public IActionResult UploadImage(IFormFile image, long NoteID)
         {
             try
-            {           
+            {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "userId").Value);
                 var result = iNoteBL.UploadImage(image, NoteID, userId);
                 if (result != null)
