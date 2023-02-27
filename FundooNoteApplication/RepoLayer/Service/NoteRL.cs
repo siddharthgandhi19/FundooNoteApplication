@@ -284,18 +284,25 @@ namespace RepoLayer.Service
         /// <param name="backgroundColor"></param>
         /// <param name="noteColor"></param>
         /// <returns></returns>
-        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
+        public bool NoteColor(NoteColor noteColor, long UserId)
         {
             try
             {
-                var noteEntity = fundooContext.NoteTable.FirstOrDefault(e => e.NoteID == NoteID);
-                noteEntity.Color = backgroundColor;
-                fundooContext.NoteTable.Update(noteEntity);
-                fundooContext.SaveChanges();
-                return noteEntity;
+                var result = fundooContext.NoteTable.Where(x => x.NoteID == noteColor.NoteID && x.UserId == UserId).FirstOrDefault();
+                if (result != null)
+                {
+                    result.Color = noteColor.Color;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
+
                 throw;
             }
         }

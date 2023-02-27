@@ -18,7 +18,7 @@ namespace RepoLayer.Interface
         public bool PinnedNotes(NoteIDModel noteIDModel, long UserId);
         public bool TrashedNotes(NoteIDModel noteIDModel, long UserId);
         public bool TrashedAllNotes(long UserId);
-        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor);
+        public bool NoteColor(NoteColor noteColor, long UserId);
         public string UploadImage(IFormFile image, long noteId, long userId);
     }
 }

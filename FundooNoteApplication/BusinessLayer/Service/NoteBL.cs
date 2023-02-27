@@ -31,11 +31,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public NoteEntity Color(long userId, long NoteID, string backgroundColor, NoteColor noteColor)
+        public bool NoteColor(NoteColor noteColor, long UserId)
         {
             try
             {
-                return iNoteRL.Color(userId, NoteID, backgroundColor, noteColor);
+                return iNoteRL.NoteColor(noteColor, UserId);
             }
             catch (Exception)
             {

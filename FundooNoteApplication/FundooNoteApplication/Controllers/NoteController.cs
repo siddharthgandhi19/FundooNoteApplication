@@ -272,12 +272,12 @@ namespace FundooNoteApplication.Controllers
         [Authorize]
         [HttpPut]
         [Route("BackgroundColor")]
-        public IActionResult BgColor(long NoteID, string backgroundColor, NoteColor noteColor)
+        public IActionResult BgColor(NoteColor noteColor)
         {
             try
             {
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
-                var result = iNoteBL.Color(userId, NoteID, backgroundColor, noteColor);
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userId").Value);
+                var result = iNoteBL.NoteColor(noteColor, UserId);
 
                 if (result != null)
                 {

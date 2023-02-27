@@ -6,6 +6,7 @@ namespace CommonLayer.ModelClass
 {
     public class NoteIDModel
     {
+
         public long NoteID { get; set; }
     }
 }
